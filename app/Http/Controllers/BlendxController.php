@@ -15,8 +15,26 @@ class BlendxController extends Controller
         $api = BlendxHelpers::is_api($request);
         $model = BlendxHelpers::route_to_model($route);
         $all = $model->path::with($model->blender->getRelations())->get();
-        $res = BlendxHelpers::generate_response(false, 'All '.$model->name.' loaded!', $all);
-        return response()->json($res, 200);
+
+        if($api){
+            $res = BlendxHelpers::generate_response(false, 'All '.$model->name.' loaded!', $all);
+            return response()->json($res, 200);
+        }else{
+            $res = BlendxHelpers::generate_response(false, 'All '.$model->name.' loaded!', $all);
+           return  view('admin.'.strtolower($model->name).'.index',compact('res'));
+        }
+
+    }
+
+    public static function create(Request $request, $route){
+        if(!$request->isMethod('GET')){
+            return response("Method not allowed! Please make a GET request!", 405, ['Access-Control-Allow-Methods' => 'GET']);
+        }
+
+        $model = BlendxHelpers::route_to_model($route);
+        return  view('admin.'.strtolower($model->name).'.create' );
+
+
     }
 
     public static function show(Request $request, $route, $id){
