@@ -6,7 +6,7 @@
         <div class="info">
             <a data-toggle="collapse" href="#collapseExample" class="collapsed">
               <span>
-                Chet Faker
+                {{Auth::guard('admin')->user()->name}}
                 <b class="caret"></b>
               </span>
             </a>
