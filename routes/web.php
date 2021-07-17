@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BlendxController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -25,5 +26,14 @@ Route::group(['prefix'=>'admin' ], function(){
     Route::group(['middleware'=>['admin']],function() {
         Route ::get('/dashboard', [AdminController::class, 'dashboard']) -> name('admin.dashboard');
         Route ::get('/logout', [AdminController::class, 'logout']) -> name('admin.logout');
+
+        Route::get('/{route}/index/{id?}/{api?}', [BlendxController::class, 'index']);
+        Route::get('/{route}/create/{id?}/{api?}', [BlendxController::class, 'create']);
+        Route::get('/{route}/show/{id?}/{api?}', [BlendxController::class, 'show']);
+        Route::delete('/{route}/delete/{id?}/{api?}', [BlendxController::class, 'delete']);
+        Route::post('/{route}/store/{id?}/{api?}', [BlendxController::class, 'store']);
+        Route::put('/{route}/update/{id?}/{api?}', [BlendxController::class, 'update']);
+
+        Route::get('/doctors',[AdminController::class,'doctor'])->name('admin.doctor');
     });
 });
