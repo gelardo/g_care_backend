@@ -27,12 +27,12 @@ Route::group(['prefix'=>'admin' ], function(){
         Route ::get('/dashboard', [AdminController::class, 'dashboard']) -> name('admin.dashboard');
         Route ::get('/logout', [AdminController::class, 'logout']) -> name('admin.logout');
 
-        Route::get('/{route}/index/{id?}/{api?}', [BlendxController::class, 'index']);
-        Route::get('/{route}/create/{id?}/{api?}', [BlendxController::class, 'create']);
-        Route::get('/{route}/show/{id?}/{api?}', [BlendxController::class, 'show']);
-        Route::delete('/{route}/delete/{id?}/{api?}', [BlendxController::class, 'delete']);
-        Route::post('/{route}/store/{id?}/{api?}', [BlendxController::class, 'store']);
-        Route::put('/{route}/update/{id?}/{api?}', [BlendxController::class, 'update']);
+        Route::get('/{route}/index/{id?}', [BlendxController::class, 'index']);
+        Route::get('/{route}/create/{id?}', [BlendxController::class, 'create']);
+        Route::get('/{route}/show/{id?}', [BlendxController::class, 'show']);
+        Route::delete('/{route}/delete/{id?}/', [BlendxController::class, 'delete']);
+        Route::post('/{route}/store', [BlendxController::class, 'store']);
+        Route::put('/{route}/update/{id?}', [BlendxController::class, 'update']);
 
         Route::get('/doctors',[AdminController::class,'doctor'])->name('admin.doctor');
     });
