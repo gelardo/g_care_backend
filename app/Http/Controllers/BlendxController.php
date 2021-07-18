@@ -15,13 +15,11 @@ class BlendxController extends Controller
         $api = BlendxHelpers::is_api($request);
         $model = BlendxHelpers::route_to_model($route);
         $all = $model->path::with($model->blender->getRelations())->get();
-
+        $res = BlendxHelpers::generate_response(false, 'All '.$model->name.' loaded!', $all);
         if($api){
-            $res = BlendxHelpers::generate_response(false, 'All '.$model->name.' loaded!', $all);
+
             return response()->json($res, 200);
         }else{
-            $res = BlendxHelpers::generate_response(false, 'All '.$model->name.' loaded!', $all);
-
            return  view('admin.'.strtolower($model->name).'.index',compact('all'));
         }
 
@@ -38,7 +36,7 @@ class BlendxController extends Controller
 
     }
 
-    public static function show(Request $request, $route, $id){
+    public static function edit(Request $request, $route,$id){
         if(!$request->isMethod('GET')){
             return response("Method not allowed! Please make a GET request!", 405, ['Access-Control-Allow-Methods' => 'GET']);
         }
@@ -46,7 +44,21 @@ class BlendxController extends Controller
         $entry = $model->path::with($model->blender->getRelations())->where('id', $id)->first();
         $entry_to_respond = $model->blender::format_entry($entry, $model);
         $res = BlendxHelpers::generate_response(false, $model->name.' with id ('.$id.')loaded!', [$entry_to_respond]);
+        return  view('admin.'.strtolower($model->name).'.edit' ,compact('entry_to_respond'));
+
+    }
+
+    public static function show(Request $request, $route, $id){
+        if(!$request->isMethod('GET')){
+            return response("Method not allowed! Please make a GET request!", 405, ['Access-Control-Allow-Methods' => 'GET']);
+        }
+        $model = BlendxHelpers::route_to_model($route);
+        $api = BlendxHelpers::is_api($request);
+        $entry = $model->path::with($model->blender->getRelations())->where('id', $id)->first();
+        $entry_to_respond = $model->blender::format_entry($entry, $model);
+        $res = BlendxHelpers::generate_response(false, $model->name.' with id ('.$id.')loaded!', [$entry_to_respond]);
         return response()->json($res, 200);
+
     }
 
     public static function delete(Request $request, $route, $id){
@@ -55,10 +67,15 @@ class BlendxController extends Controller
         }
         $model = BlendxHelpers::route_to_model($route);
         $entry = $model->path::findOrFail($id);
+        $api = BlendxHelpers::is_api($request);
         try{
             $entry->delete();
-            $res = BlendxHelpers::generate_response(false, 'Successfully deleted!', [$entry]);
-            return response()->json($res, 204);
+            if($api) {
+                $res = BlendxHelpers ::generate_response(false, 'Successfully deleted!', [$entry]);
+                return response() -> json($res, 204);
+            }else{
+                return redirect()->back();
+            }
         }catch (\Exception $error){
             $res = BlendxHelpers::generate_response(true, 'Could not delete!', [$error->getMessage()]);
             return response()->json($res, 500);
@@ -98,6 +115,7 @@ class BlendxController extends Controller
             return response("Method not allowed! Please make a PUT request!", 405, ['Access-Control-Allow-Methods' => 'PUT']);
         }
         $model = BlendxHelpers::route_to_model($route);
+        $api = BlendxHelpers::is_api($request);
         if($model->blender){
             $x = $model->blender::update_validator();
         }
@@ -107,8 +125,13 @@ class BlendxController extends Controller
             $entry = $model->path::findOrFail($id);
             $entry->update($toCreate['updated']);
             $model->blender::after_updated($entry);
-            $res = BlendxHelpers::generate_response(false, 'Successfully updated!', [$entry]);
-            return response()->json($res, 201);
+            if($api){
+                $res = BlendxHelpers::generate_response(false, 'Successfully updated!', [$entry]);
+                return response()->json($res, 201);
+            }else{
+                return  redirect('admin/'.strtolower($model->name).'/index');
+            }
+
         }catch (\Exception $error){
             $res = BlendxHelpers::generate_response(true, 'Could not update!', [$error->getMessage()]);
             return response()->json($res, 500);
