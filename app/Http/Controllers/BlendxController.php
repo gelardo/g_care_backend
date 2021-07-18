@@ -118,9 +118,6 @@ class BlendxController extends Controller
             return response("Method not allowed! Please make a PUT request!", 405, ['Access-Control-Allow-Methods' => 'PUT']);
         }
 
-
-
-
         $model = BlendxHelpers::route_to_model($route);
         $api = BlendxHelpers::is_api($request);
         if($model->blender){
