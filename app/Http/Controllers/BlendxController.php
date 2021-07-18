@@ -15,8 +15,27 @@ class BlendxController extends Controller
         $api = BlendxHelpers::is_api($request);
         $model = BlendxHelpers::route_to_model($route);
         $all = $model->path::with($model->blender->getRelations())->get();
-        $res = BlendxHelpers::generate_response(false, 'All '.$model->name.' loaded!', $all);
-        return response()->json($res, 200);
+
+        if($api){
+            $res = BlendxHelpers::generate_response(false, 'All '.$model->name.' loaded!', $all);
+            return response()->json($res, 200);
+        }else{
+            $res = BlendxHelpers::generate_response(false, 'All '.$model->name.' loaded!', $all);
+
+           return  view('admin.'.strtolower($model->name).'.index',compact('all'));
+        }
+
+    }
+
+    public static function create(Request $request, $route){
+        if(!$request->isMethod('GET')){
+            return response("Method not allowed! Please make a GET request!", 405, ['Access-Control-Allow-Methods' => 'GET']);
+        }
+
+        $model = BlendxHelpers::route_to_model($route);
+        return  view('admin.'.strtolower($model->name).'.create' );
+
+
     }
 
     public static function show(Request $request, $route, $id){
@@ -46,22 +65,28 @@ class BlendxController extends Controller
         }
     }
 
-    public static function store(Request $request, $route, $id){
+    public static function store(Request $request, $route){
         if(!$request->isMethod('POST')){
             return response("Method not allowed! Please make a POST request!", 405, ['Access-Control-Allow-Methods' => 'POST']);
         }
+        $api = BlendxHelpers::is_api($request);
         $model = BlendxHelpers::route_to_model($route);
+
         if($model->blender){
             $x = $model->blender::store_validator($route);
         }
         $validated = $request->validate($x);
         $processed = $model->blender::after_validator($validated, $route, Auth::user());
-        // dd($processed);
+
         try{
             $entry = $model->path::create($processed['updated']);
             $model->blender::after_created($entry, $processed);
-            $res = BlendxHelpers::generate_response(false, 'Successfully created!', [$model->blender::format_entry($entry, $model)]);
-            return response()->json($res, 201);
+            if($api) {
+                $res = BlendxHelpers ::generate_response(false, 'Successfully created!', [$model -> blender ::format_entry($entry, $model)]);
+                return response() -> json($res, 201);
+            }else{
+                return  redirect('admin/'.strtolower($model->name).'/index');
+            }
         }catch (\Exception $error){
             $res = BlendxHelpers::generate_response(true, 'Could not create!', [$error->getMessage()]);
             return response()->json($res, 500);
