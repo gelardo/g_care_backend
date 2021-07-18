@@ -16,18 +16,18 @@
                         <thead>
                         <tr>
                             <th>Name</th>
-                            <th>Position</th>
-                            <th>Office</th>
-                            <th>Age</th>
+                            <th>Phone</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
                             <th class="disabled-sorting text-right">Actions</th>
                         </tr>
                         </thead>
                         <tfoot>
                         <tr>
                             <th>Name</th>
-                            <th>Position</th>
-                            <th>Office</th>
-                            <th>Age</th>
+                            <th>Phone</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
                             <th class="disabled-sorting text-right">Actions</th>
                         </tr>
                         </tfoot>
