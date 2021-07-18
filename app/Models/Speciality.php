@@ -12,4 +12,7 @@ class Speciality extends Model
     protected $guarded=[];
 
 
+
+
+
 }

@@ -15,13 +15,11 @@ class BlendxController extends Controller
         $api = BlendxHelpers::is_api($request);
         $model = BlendxHelpers::route_to_model($route);
         $all = $model->path::with($model->blender->getRelations())->get();
-
+        $res = BlendxHelpers::generate_response(false, 'All '.$model->name.' loaded!', $all);
         if($api){
-            $res = BlendxHelpers::generate_response(false, 'All '.$model->name.' loaded!', $all);
+
             return response()->json($res, 200);
         }else{
-            $res = BlendxHelpers::generate_response(false, 'All '.$model->name.' loaded!', $all);
-
            return  view('admin.'.strtolower($model->name).'.index',compact('all'));
         }
 
@@ -33,8 +31,20 @@ class BlendxController extends Controller
         }
 
         $model = BlendxHelpers::route_to_model($route);
-        return  view('admin.'.strtolower($model->name).'.create' );
+        return  view('admin.'.strtolower($model->name).'.create',compact('model') );
 
+
+    }
+
+    public static function edit(Request $request, $route,$id){
+        if(!$request->isMethod('GET')){
+            return response("Method not allowed! Please make a GET request!", 405, ['Access-Control-Allow-Methods' => 'GET']);
+        }
+        $model = BlendxHelpers::route_to_model($route);
+        $entry = $model->path::with($model->blender->getRelations())->where('id', $id)->first();
+        $entry_to_respond = $model->blender::format_entry($entry, $model);
+        $res = BlendxHelpers::generate_response(false, $model->name.' with id ('.$id.')loaded!', [$entry_to_respond]);
+        return  view('admin.'.strtolower($model->name).'.edit' ,compact('entry_to_respond'));
 
     }
 
@@ -43,10 +53,12 @@ class BlendxController extends Controller
             return response("Method not allowed! Please make a GET request!", 405, ['Access-Control-Allow-Methods' => 'GET']);
         }
         $model = BlendxHelpers::route_to_model($route);
+        $api = BlendxHelpers::is_api($request);
         $entry = $model->path::with($model->blender->getRelations())->where('id', $id)->first();
         $entry_to_respond = $model->blender::format_entry($entry, $model);
         $res = BlendxHelpers::generate_response(false, $model->name.' with id ('.$id.')loaded!', [$entry_to_respond]);
         return response()->json($res, 200);
+
     }
 
     public static function delete(Request $request, $route, $id){
@@ -55,10 +67,15 @@ class BlendxController extends Controller
         }
         $model = BlendxHelpers::route_to_model($route);
         $entry = $model->path::findOrFail($id);
+        $api = BlendxHelpers::is_api($request);
         try{
             $entry->delete();
-            $res = BlendxHelpers::generate_response(false, 'Successfully deleted!', [$entry]);
-            return response()->json($res, 204);
+            if($api) {
+                $res = BlendxHelpers ::generate_response(false, 'Successfully deleted!', [$entry]);
+                return response() -> json($res, 204);
+            }else{
+                return redirect()->back();
+            }
         }catch (\Exception $error){
             $res = BlendxHelpers::generate_response(true, 'Could not delete!', [$error->getMessage()]);
             return response()->json($res, 500);
@@ -69,6 +86,8 @@ class BlendxController extends Controller
         if(!$request->isMethod('POST')){
             return response("Method not allowed! Please make a POST request!", 405, ['Access-Control-Allow-Methods' => 'POST']);
         }
+
+
         $api = BlendxHelpers::is_api($request);
         $model = BlendxHelpers::route_to_model($route);
 
@@ -80,6 +99,7 @@ class BlendxController extends Controller
 
         try{
             $entry = $model->path::create($processed['updated']);
+
             $model->blender::after_created($entry, $processed);
             if($api) {
                 $res = BlendxHelpers ::generate_response(false, 'Successfully created!', [$model -> blender ::format_entry($entry, $model)]);
@@ -97,18 +117,29 @@ class BlendxController extends Controller
         if(!$request->isMethod('PUT')){
             return response("Method not allowed! Please make a PUT request!", 405, ['Access-Control-Allow-Methods' => 'PUT']);
         }
+
         $model = BlendxHelpers::route_to_model($route);
+        $api = BlendxHelpers::is_api($request);
         if($model->blender){
             $x = $model->blender::update_validator();
         }
         $validated = $request->validate($x);
         $toCreate = $model->blender::after_validator($validated,$route);
+
         try{
             $entry = $model->path::findOrFail($id);
+
             $entry->update($toCreate['updated']);
-            $model->blender::after_updated($entry);
-            $res = BlendxHelpers::generate_response(false, 'Successfully updated!', [$entry]);
-            return response()->json($res, 201);
+            $model->blender::after_updated($entry,$toCreate);
+            if($api){
+
+                $res = BlendxHelpers::generate_response(false, 'Successfully updated!', [$entry]);
+                return response()->json($res, 201);
+            }else{
+
+                return  redirect('admin/'.strtolower($model->name).'/index');
+            }
+
         }catch (\Exception $error){
             $res = BlendxHelpers::generate_response(true, 'Could not update!', [$error->getMessage()]);
             return response()->json($res, 500);

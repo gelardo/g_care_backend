@@ -4,25 +4,26 @@
 
     <div class="row">
         <div class="col-md-6">
-            <form id="RegisterValidation" action="{{url('admin/doctor/store')}}" method="post">
+            <form id="RegisterValidation" action="{{url('admin/doctor/update',$entry_to_respond->id)}}" method="post">
                 @csrf
+                @method('PUT')
                 <div class="card ">
                     <div class="card-header ">
-                        <h4 class="card-title">Add New Doctor</h4>
+                        <h4 class="card-title">Update Doctor</h4>
                     </div>
                     <div class="card-body ">
                         <div class="form-group has-label">
                             <label>
                                 Name
                             </label>
-                            <input class="form-control" name="name" placeholder="Enter Doctor Name" type="text" required="true" />
+                            <input class="form-control" name="name"  value="{{$entry_to_respond->name}}" type="text" required="true" />
                         </div>
                         <div class="form-group has-label">
                             <label>
                                 Phone
                                 *
                             </label>
-                            <input class="form-control" name="phone" id="registerPassword" placeholder="Phone NUmber....." type="text" required="true" />
+                            <input class="form-control" name="phone" id="registerPassword" value="{{$entry_to_respond->phone}}" type="text" required="true" />
                         </div>
 
                         <div class="form-group has-label">
@@ -41,28 +42,28 @@
                                 <label>
                                     Start Time
                                 </label>
-                                   <input type="text" name="start_time" class="form-control timepicker" required value="10:05 AM">
+                                <input type="text" name="start_time" class="form-control timepicker" required value="{{$entry_to_respond->start_time}}">
 
-                             </div>
+                            </div>
 
                             <div class="col-md-6">
                                 <label>
                                     End Time
                                 </label>
-                                <input type="text" name="end_time" class="form-control timepicker" required value="10:05 AM">
+                                <input type="text" name="end_time" class="form-control timepicker" required value=" {{$entry_to_respond->end_time}}">
 
                             </div>
-                        <div>
+                            <div>
 
 
-                      </div>
+                            </div>
 
-                    <div class="card-footer text-right">
+                            <div class="card-footer text-right">
 
-                        <button type="submit" class="btn btn-primary">Create New</button>
+                                <button type="submit" class="btn btn-primary">Update</button>
+                            </div>
+                        </div>
                     </div>
-             </div>
-             </div>
                 </div>
             </form>
         </div>
@@ -86,5 +87,5 @@
         );
 
     </script>
-    @endsection
+@endsection
 

@@ -30,6 +30,7 @@ Route::group(['prefix'=>'admin' ], function(){
         Route::get('/{route}/index/{id?}', [BlendxController::class, 'index']);
         Route::get('/{route}/create/{id?}', [BlendxController::class, 'create']);
         Route::get('/{route}/show/{id?}', [BlendxController::class, 'show']);
+        Route::get('/{route}/edit/{id?}', [BlendxController::class, 'edit']);
         Route::delete('/{route}/delete/{id?}/', [BlendxController::class, 'delete']);
         Route::post('/{route}/store', [BlendxController::class, 'store']);
         Route::put('/{route}/update/{id?}', [BlendxController::class, 'update']);

@@ -1,7 +1,7 @@
 <div class="sidebar-wrapper">
     <div class="user">
         <div class="photo">
-            <img src="../assets/img/faces/ayo-ogunseinde-2.jpg" />
+            <img src="{{asset('assets/img/faces/ayo-ogunseinde-2.jpg')}}" />
         </div>
         <div class="info">
             <a data-toggle="collapse" href="#collapseExample" class="collapsed">
@@ -43,25 +43,33 @@
             </a>
         </li>
 
+
         <li>
-            <a data-toggle="collapse" href="#componentsExamples">
-                <i class="nc-icon nc-layout-11"></i>
-                <p>
-                    Pages <b class="caret"></b>
-                </p>
+            <a href="{{url('admin/doctor/index')}}">
+                <i class="nc-icon nc-box"></i>
+                <p>Doctors</p>
             </a>
-            <div class="collapse " id="componentsExamples">
-                <ul class="nav">
-                    <li>
-                        <a href="{{url('admin/doctor/index')}}">
-                            <span class="sidebar-mini-icon">B</span>
-                            <span class="sidebar-normal"> Doctors </span>
-                        </a>
-                    </li>
+        </li>
 
+        <li>
+            <a href="{{url('admin/speciality/index')}}">
+                <i class="nc-icon nc-box"></i>
+                <p>Speciality</p>
+            </a>
+        </li>
 
-                </ul>
-            </div>
+        <li>
+            <a href="{{url('admin/patient/index')}}">
+                <i class="nc-icon nc-box"></i>
+                <p>Patient</p>
+            </a>
+        </li>
+
+        <li>
+            <a href="{{url('admin/pathology/index')}}">
+                <i class="nc-icon nc-box"></i>
+                <p>Pathology</p>
+            </a>
         </li>
 
     </ul>

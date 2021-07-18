@@ -5,8 +5,8 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
-                    <h4 class="card-title">Doctor List</h4>
-                    <a href="{{url('admin/doctor/create')}}" class="btn btn-instagram float-right">Add New</a>
+                    <h4 class="card-title">Patient List</h4>
+
                 </div>
                 <div class="card-body">
                     <div class="toolbar">
@@ -17,9 +17,9 @@
                         <tr>
                             <th>Name</th>
                             <th>Phone</th>
-                            <th>Speciality</th>
-                            <th>Start Time</th>
-                            <th>End Time</th>
+                            <th>Address</th>
+                            <th>Age</th>
+                            <th>Gender</th>
                             <th class="disabled-sorting text-right">Actions</th>
                         </tr>
                         </thead>
@@ -27,9 +27,9 @@
                         <tr>
                             <th>Name</th>
                             <th>Phone</th>
-                            <th>Speciality</th>
-                            <th>Start Time</th>
-                            <th>End Time</th>
+                            <th>Address</th>
+                            <th>Age</th>
+                            <th>Gender</th>
                             <th class="disabled-sorting text-right">Actions</th>
                         </tr>
                         </tfoot>
@@ -42,16 +42,12 @@
 
                             <td>{{$r->name}}</td>
                             <td>{{$r->phone}}</td>
-                            <td>
-                                @foreach($r->specialities as $s)
-                                    {{$s->name}} ,
-                                @endforeach
-                            </td>
-                            <td>{{$r->start_time}}</td>
-                            <td>{{$r->end_time}}</td>
+                            <td>{{$r->address}}</td>
+                            <td>{{$r->age}}</td>
+                            <td>{{$r->gender}}</td>
                             <td class="text-right">
-                                <a href="{{url('admin/doctor/edit',$r->id)}}" class="btn btn-warning btn-link btn-icon btn-sm "><i class="fa fa-edit"></i></a>
-                                <form action="{{url('admin/doctor/delete/'.$r->id)}}" method="post">
+                                <a href="{{url('admin/patient/edit',$r->id)}}" class="btn btn-warning btn-link btn-icon btn-sm "><i class="fa fa-edit"></i></a>
+                                <form action="{{url('admin/patient/delete/'.$r->id)}}" method="post">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger btn-link btn-icon btn-sm">
