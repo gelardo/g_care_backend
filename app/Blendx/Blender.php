@@ -23,7 +23,7 @@ class Blender {
         return [];
     }
     public static function after_validator($validated, $route, $user = null){
-        
+
         $table_name = BlendxHelpers::route_to_table($route);
         $model = BlendxHelpers::route_to_model($route);
         if (Schema::hasColumn($table_name, 'slug'))
@@ -82,8 +82,9 @@ class Blender {
         return;
     }
 
-    public static function after_updated($entry){
-        //
+    public static function after_updated($entry,$processed){
+        self::handleRelations($entry,$processed);
+        return;
     }
 
     protected $relations = [];

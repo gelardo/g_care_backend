@@ -17,6 +17,7 @@
                         <tr>
                             <th>Name</th>
                             <th>Phone</th>
+                            <th>Speciality</th>
                             <th>Start Time</th>
                             <th>End Time</th>
                             <th class="disabled-sorting text-right">Actions</th>
@@ -26,6 +27,7 @@
                         <tr>
                             <th>Name</th>
                             <th>Phone</th>
+                            <th>Speciality</th>
                             <th>Start Time</th>
                             <th>End Time</th>
                             <th class="disabled-sorting text-right">Actions</th>
@@ -37,14 +39,25 @@
 
                          @foreach($all as $r)
                         <tr>
+
                             <td>{{$r->name}}</td>
                             <td>{{$r->phone}}</td>
-                            <td>{{$r->phone}}</td>
-                            <td>{{$r->phone}}</td>
+                            <td>
+                                @foreach($r->specialities as $s)
+                                    {{$s->name}} ,
+                                @endforeach
+                            </td>
+                            <td>{{$r->start_time}}</td>
+                            <td>{{$r->end_time}}</td>
                             <td class="text-right">
-                                <a href="#" class="btn btn-info btn-link btn-icon btn-sm like"><i class="fa fa-heart"></i></a>
-                                <a href="#" class="btn btn-warning btn-link btn-icon btn-sm edit"><i class="fa fa-edit"></i></a>
-                                <a href="#" class="btn btn-danger btn-link btn-icon btn-sm remove"><i class="fa fa-times"></i></a>
+                                <a href="{{url('admin/doctor/edit',$r->id)}}" class="btn btn-warning btn-link btn-icon btn-sm "><i class="fa fa-edit"></i></a>
+                                <form action="{{url('admin/doctor/delete/'.$r->id)}}" method="post">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger btn-link btn-icon btn-sm">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                          @endforeach
