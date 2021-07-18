@@ -119,6 +119,8 @@ class BlendxController extends Controller
         }
 
 
+
+
         $model = BlendxHelpers::route_to_model($route);
         $api = BlendxHelpers::is_api($request);
         if($model->blender){
@@ -133,9 +135,11 @@ class BlendxController extends Controller
             $entry->update($toCreate['updated']);
             $model->blender::after_updated($entry,$toCreate);
             if($api){
+
                 $res = BlendxHelpers::generate_response(false, 'Successfully updated!', [$entry]);
                 return response()->json($res, 201);
             }else{
+
                 return  redirect('admin/'.strtolower($model->name).'/index');
             }
 

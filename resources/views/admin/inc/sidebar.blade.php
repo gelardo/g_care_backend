@@ -58,5 +58,12 @@
             </a>
         </li>
 
+        <li>
+            <a href="{{url('admin/patient/index')}}">
+                <i class="nc-icon nc-box"></i>
+                <p>Patient</p>
+            </a>
+        </li>
+
     </ul>
 </div>
