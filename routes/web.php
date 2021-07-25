@@ -35,6 +35,5 @@ Route::group(['prefix'=>'admin' ], function(){
         Route::post('/{route}/store', [BlendxController::class, 'store']);
         Route::put('/{route}/update/{id?}', [BlendxController::class, 'update']);
 
-        Route::get('/doctors',[AdminController::class,'doctor'])->name('admin.doctor');
     });
 });
