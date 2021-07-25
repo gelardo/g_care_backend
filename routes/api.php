@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\ImageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,7 +26,6 @@ Route::get('/{route}/show/{id?}/{api?}', [BlendxController::class, 'show']);
 
 // Homepage Routes
 //Route::get('/home/counter', [HomepageController::class, 'counter']);
-
 // Login
 Route::post("/login/{role}", [AuthController::class, 'login']);
 // Register
@@ -41,6 +41,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
+
+//Get Images
+    Route::get('/profile-images', [ImageController::class, 'profile_image'])->name('profile-images');
+    Route::post('/upload_profile_images', [ImageController::class, 'upload_profile_images'])->name('upload_profile_images');
     Route::post('/logout', [AuthController::class, 'logout']);
 });
 
