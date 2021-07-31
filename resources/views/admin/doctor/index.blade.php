@@ -18,6 +18,7 @@
                             <th>Name</th>
                             <th>Phone</th>
                             <th>Speciality</th>
+                            <th>Hospitals</th>
                             <th>Start Time</th>
                             <th>End Time</th>
                             <th class="disabled-sorting text-right">Actions</th>
@@ -28,6 +29,7 @@
                             <th>Name</th>
                             <th>Phone</th>
                             <th>Speciality</th>
+                            <th>Hospitals</th>
                             <th>Start Time</th>
                             <th>End Time</th>
                             <th class="disabled-sorting text-right">Actions</th>
@@ -45,6 +47,11 @@
                             <td>
                                 @foreach($r->specialities as $s)
                                     {{$s->name}} ,
+                                @endforeach
+                            </td>
+                            <td>
+                                @foreach($r->hospitals as $h)
+                                    {{$h->name}} ,
                                 @endforeach
                             </td>
                             <td>{{$r->start_time}}</td>

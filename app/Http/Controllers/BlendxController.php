@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BookAppointment;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class BlendxController extends Controller
 {
@@ -86,15 +88,14 @@ class BlendxController extends Controller
         if(!$request->isMethod('POST')){
             return response("Method not allowed! Please make a POST request!", 405, ['Access-Control-Allow-Methods' => 'POST']);
         }
-
-
         $api = BlendxHelpers::is_api($request);
         $model = BlendxHelpers::route_to_model($route);
-
+        $x = '';
         if($model->blender){
             $x = $model->blender::store_validator($route);
         }
         $validated = $request->validate($x);
+
         $processed = $model->blender::after_validator($validated, $route, Auth::user());
 
         try{
@@ -128,7 +129,6 @@ class BlendxController extends Controller
 
         try{
             $entry = $model->path::findOrFail($id);
-
             $entry->update($toCreate['updated']);
             $model->blender::after_updated($entry,$toCreate);
             if($api){
@@ -144,5 +144,13 @@ class BlendxController extends Controller
             $res = BlendxHelpers::generate_response(true, 'Could not update!', [$error->getMessage()]);
             return response()->json($res, 500);
         }
+    }
+
+    public function query(Request $request, $route){
+        $model = BlendxHelpers::route_to_model($route);
+        $query = $request->all();
+        $results = $model->path::with($model->blender->getRelations())->where($query)->get();
+        $res = BlendxHelpers::generate_response(false, 'Query loaded!', $results);
+        return response()->json($res, 200);
     }
 }

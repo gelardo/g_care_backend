@@ -4,7 +4,7 @@
 
     <div class="row">
         <div class="col-md-6">
-            <form id="RegisterValidation" action="{{url('admin/patient/update',$entry_to_respond->id)}}" method="post">
+            <form id="RegisterValidation" action="{{url('admin/user/update',$entry_to_respond->id)}}" method="post">
                 @csrf
                 @method('PUT')
                 <div class="card ">

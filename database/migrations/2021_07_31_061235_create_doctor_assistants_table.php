@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBookAppointmentsTable extends Migration
+class CreateDoctorAssistantsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class CreateBookAppointmentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('book_appointments', function (Blueprint $table) {
+        Schema::create('doctor_assistants', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('patient_id')->constrained('patients');
-            $table->foreignId('doctor_id')->constrained('doctors');
-            $table->integer('serial');
-            $table->string('date');
-            $table->string('status');
+            $table->string('name');
+            $table->string('email');
+            $table->string('phone');
+            $table->foreignId('doctor_id')->constrained('doctors')->cascadeOnDelete();
+            $table->string('password');
             $table->timestamps();
         });
     }
@@ -31,6 +31,6 @@ class CreateBookAppointmentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('book_appointments');
+        Schema::dropIfExists('doctor_assistants');
     }
 }

@@ -22,7 +22,7 @@ class BookTest extends Model
         return $this->belongsTo(Doctor::class, 'doctor_id','id');
     }
     public function patients(){
-        return $this->belongsTo(Patient::class, 'patient_id','id');
+        return $this->belongsTo(User::class, 'user_id','id');
     }
     public function pathologies(){
         return $this->belongsToMany(Pathology::class, 'pathology_bookings');

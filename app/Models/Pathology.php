@@ -10,4 +10,7 @@ class Pathology extends Model
     use HasFactory;
 
     protected $guarded=[];
+    public function booktests(){
+        return $this->belongsToMany(BookTest::class, 'pathology_bookings');
+    }
 }

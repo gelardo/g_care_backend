@@ -8,14 +8,13 @@ use Illuminate\Support\Str;
 
 class Blender {
     public static function store_validator($route){
+
         $table = Schema::getConnection()->getDoctrineSchemaManager()->listTableColumns(Str::plural($route));
         $validator = [];
         foreach ($table as $column){
-            // dd($table);
             if($column->getName() == 'id' || $column->getName() == 'slug' || Str::contains($column->getName(), '_token') || Str::contains($column->getName(), '_at')){continue;}
             $validator[$column->getName()] = BlendxHelpers::column_to_validator_line($column);
         }
-        // dd($validator);
         return $validator;
     }
 
@@ -31,8 +30,10 @@ class Blender {
             $slug = isset($validated['name']) ? BlendxHelpers::generate_slug($validated['name'], $route) : (isset($validated['title']) ? BlendxHelpers::generate_slug($validated['title'], $route) : null);
 
             $validated['slug'] = $slug;
+
         }
         $updated = $validated;
+
         foreach ($validated as $key => $input){
             if(gettype($input) == 'object'){
                 $originalFileName = $input->getClientOriginalName();
@@ -46,6 +47,7 @@ class Blender {
         $create_with = $model->blender->getCreateWith();
         $toReturn = [];
         foreach ($create_with as $input => $relation_route){
+
             $toReturn[$input] = $validated[$input];
             unset($validated[$input]);
         }
@@ -55,14 +57,18 @@ class Blender {
     }
 
     public static function handleRelations($entry, $processed){
+
         $originalRoute = $processed['route'];
         $originalModel = BlendxHelpers::route_to_model($originalRoute);
         // dd($originalModel);
         $create_with = $originalModel->blender->getCreateWith();
+//        dd($create_with);
         foreach ($processed as $input => $values){
+
             if($input == 'updated' || $input == 'route'){
                 continue;
             }
+
             foreach($values as $value){
                 $route = $create_with[$input];
                 $model = BlendxHelpers::route_to_model($route);

@@ -36,6 +36,23 @@
                             </select>
                         </div>
 
+                        <div class="form-group has-label">
+                            <label>
+                                Hospitals
+                                *
+                            </label> <br>
+                            <select class="selectpicker" id="hospital_ids"  class="form-control" required name="hospital_ids[]"   multiple title="Select Hospitals" data-size="7">
+                                <option disabled> Select hospitals</option>
+
+                            </select>
+                        </div>
+                        <div class="form-group has-label">
+                            <label>
+                                Fees
+                                *
+                            </label>
+                            <input class="form-control" name="fees" id="registerPassword" placeholder="Doctor Fees....." type="text" required="true" />
+                        </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <label>
@@ -82,7 +99,21 @@
                         }));
                     })
                 }
+            }),
+             $.ajax({
+                type:'get',
+                url:'/api/hospital/index',
+                data:'_token = <?php echo csrf_token() ?>',
+                success:function(data) {
+                    $.each(data.data,function(key,value){
+                    $('#hospital_ids').append($('<option>', {
+                            value: value.id,
+                            text: value.name
+                        }));
+                    })
+                }
             })
+
         );
 
     </script>

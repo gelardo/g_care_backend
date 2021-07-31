@@ -23,7 +23,10 @@ use App\Http\Controllers\BlendxController;
 Route::get('/{route}/index/{id?}/{api?}', [BlendxController::class, 'index']);
 // Show
 Route::get('/{route}/show/{id?}/{api?}', [BlendxController::class, 'show']);
+// Store
+Route::post('/{route}/store/{id?}/{api?}', [BlendxController::class, 'store']);
 
+Route::post('/query/{route}', [BlendxController::class, 'query']);
 // Homepage Routes
 //Route::get('/home/counter', [HomepageController::class, 'counter']);
 // Login
@@ -34,6 +37,8 @@ Route::post("/register/{role}", [AuthController::class, 'register']);
 //Route::post("/forget-password", [AuthController::class, 'forget_password']);
 //// Reset Password
 //Route::post("/reset-password", [AuthController::class, 'reset_password'])->name('password.reset');
+//Temporary Routes
+Route::get('/doctor/{speciality_id}',[AuthController::class, 'doctor_with_speciality']);
 
 // Blendme
 //Route::any("/{route}/{action?}/{id?}", [BlendxRouter::class, 'blendme']);
@@ -44,7 +49,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
 //Get Images
     Route::get('/profile-images', [ImageController::class, 'profile_image'])->name('profile-images');
-    Route::post('/upload_profile_images', [ImageController::class, 'upload_profile_images'])->name('upload_profile_images');
+    Route::post('/upload_profile_images', [ImageController::class, 'upload_profile_images']);
+    Route::post('/update_profile', [AuthController::class, 'update_profile']);
     Route::post('/logout', [AuthController::class, 'logout']);
 });
 

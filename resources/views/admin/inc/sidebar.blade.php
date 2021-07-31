@@ -59,7 +59,7 @@
         </li>
 
         <li>
-            <a href="{{url('admin/patient/index')}}">
+            <a href="{{url('admin/user/index')}}">
                 <i class="nc-icon nc-box"></i>
                 <p>Patient</p>
             </a>
@@ -69,6 +69,18 @@
             <a href="{{url('admin/pathology/index')}}">
                 <i class="nc-icon nc-box"></i>
                 <p>Pathology</p>
+            </a>
+        </li>
+        <li>
+            <a href="{{url('admin/hospital/index')}}">
+                <i class="nc-icon nc-box"></i>
+                <p>Hospital</p>
+            </a>
+        </li>
+        <li>
+            <a href="{{url('admin/doctor_assistant/index')}}">
+                <i class="nc-icon nc-box"></i>
+                <p>Doctor Assistatn</p>
             </a>
         </li>
 

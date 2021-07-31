@@ -7,6 +7,10 @@ use Illuminate\Support\Str;
 
 class BlendxHelpers extends Controller
 {
+    // Generates response in a common format
+    // $error: boolean | Indicates if there was an error.
+    // $message: String | Returns additional message about the response.
+    // $data: Object/Array/JSON | The actual data which gets converted to JSON and goes as API response
     public static function generate_response($error, $message, $data){
         $response = new \stdClass();
         $response->error = $error;
@@ -15,6 +19,7 @@ class BlendxHelpers extends Controller
         return $response;
     }
 
+    // Understands the request if it is an API request or not.
     public static function is_api(Request $request){
         if($request->is("api/*")){
             return true;
@@ -23,6 +28,11 @@ class BlendxHelpers extends Controller
         }
     }
 
+    // Provides an object for using against the model
+    // $route: string | Snake case singular name of the model.
+    // $model->name: String | Provides the model name for using anywhere.
+    // $model->path: ClassPath | Provides full path of the model class to use to class anywhere.
+    // $model->blender: Object | Provides an instance of the blender of the Model to use in Controllers.
     public static function route_to_model($route){
         $model_name = Str::ucfirst(Str::camel($route));
         $model_path = "App\\Models\\".$model_name;
@@ -40,6 +50,7 @@ class BlendxHelpers extends Controller
         return $model;
     }
 
+    // Converts a column to Laravel validator compatible validation rule.
     public static function column_to_validator_line($column){
         $type = $column->getType()->getName();
         $isRequired = $column->getNotNull() ? "|required" : "";
@@ -77,10 +88,12 @@ class BlendxHelpers extends Controller
         return $toReturn;
     }
 
+    // From route generates table name
     public static function route_to_table($route){
         return Str::snake(Str::plural($route));
     }
 
+    // Generates slug
     public static function generate_slug($title, $route){
         $slug = Str::slug($title);
         $model = self::route_to_model($route);
@@ -92,6 +105,7 @@ class BlendxHelpers extends Controller
             return $slug;
         }
     }
+
 
     public static function get_controller($route){
         $model = self::route_to_model($route);

@@ -45,6 +45,10 @@ return [
             'driver' => 'session',
             'provider' => 'admin',
         ],
+        'doctorassistant' => [
+            'driver' => 'session',
+            'provider' => 'doctorassistant',
+        ],
 
         'api' => [
             'driver' => 'sanctum',
@@ -76,6 +80,10 @@ return [
             'model' => App\Models\User::class,
         ],
 
+        'doctorassistant' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\DoctorAssistant::class,
+        ],
         'admin' => [
             'driver' => 'eloquent',
             'model' => App\Models\Admin::class,

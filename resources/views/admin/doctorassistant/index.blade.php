@@ -1,12 +1,14 @@
 @extends('admin.layouts.layout')
 
 @section('content')
+
+
     <div class="row">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
-                    <h4 class="card-title">Patient List</h4>
-
+                    <h4 class="card-title">Doctor List</h4>
+                    <a href="{{url('admin/doctor_assistant/create')}}" class="btn btn-instagram float-right">Add New</a>
                 </div>
                 <div class="card-body">
                     <div class="toolbar">
@@ -17,9 +19,8 @@
                         <tr>
                             <th>Name</th>
                             <th>Phone</th>
-                            <th>Address</th>
-                            <th>Age</th>
-                            <th>Gender</th>
+                            <th>Email</th>
+                            <th>Doctor</th>
                             <th class="disabled-sorting text-right">Actions</th>
                         </tr>
                         </thead>
@@ -27,27 +28,22 @@
                         <tr>
                             <th>Name</th>
                             <th>Phone</th>
-                            <th>Address</th>
-                            <th>Age</th>
-                            <th>Gender</th>
+                            <th>Email</th>
+                            <th>Doctor</th>
                             <th class="disabled-sorting text-right">Actions</th>
                         </tr>
                         </tfoot>
                         <tbody>
 
-
-
                          @foreach($all as $r)
                         <tr>
-
                             <td>{{$r->name}}</td>
                             <td>{{$r->phone}}</td>
-                            <td>{{$r->address}}</td>
-                            <td>{{$r->age}}</td>
-                            <td>{{$r->gender}}</td>
+                            <td>{{$r->email}}</td>
+                            <td>{{$r->doctors->name}}</td>
                             <td class="text-right">
-                                <a href="{{url('admin/patient/edit',$r->id)}}" class="btn btn-warning btn-link btn-icon btn-sm "><i class="fa fa-edit"></i></a>
-                                <form action="{{url('admin/patient/delete/'.$r->id)}}" method="post">
+                                <a href="{{url('admin/doctor_assistant/edit',$r->id)}}" class="btn btn-warning btn-link btn-icon btn-sm "><i class="fa fa-edit"></i></a>
+                                <form action="{{url('admin/doctor_assistant/delete/'.$r->id)}}" method="post">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger btn-link btn-icon btn-sm">

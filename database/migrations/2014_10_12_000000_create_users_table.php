@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('profile_picture')->nullable();
             $table->date('date_of_birth')->nullable();
             $table->string('location')->nullable();
+            $table->string('gender')->nullable();
             $table->text('bio')->nullable();
             $table->string('referral_code')->nullable();
             $table->foreignId('referrer_id')->nullable();
