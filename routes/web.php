@@ -44,7 +44,7 @@ Route::group(['prefix'=>'doctorassistant' ], function(){
     Route::post('/login',[DoctorAssistantController::class,'doctorAssistantLoginProcess'])->name('doctorassistant.login');
     Route::group(['middleware'=>['doctorassistant']],function() {
         Route::get('/',[DoctorAssistantController::class, 'index']);
-        Route ::get('/dashboard', [App\Http\Controllers\DoctorAssistantController::class, 'dashboard'])->name('doctorassistant.dashboard');
+        Route ::get('/dashboard', [App\Http\Controllers\DoctorAssistantController::class, 'dashboard'])->name('doctorassistant.dashboard'   );
         Route ::get('/logout', [DoctorAssistantController::class, 'logout']) -> name('doctorassistant.logout');
         Route::get('/{route}/index/{id?}', [BlendxController::class, 'index']);
 

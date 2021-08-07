@@ -126,7 +126,6 @@ class BlendxController extends Controller
         }
         $validated = $request->validate($x);
         $toCreate = $model->blender::after_validator($validated,$route);
-
         try{
             $entry = $model->path::findOrFail($id);
             $entry->update($toCreate['updated']);

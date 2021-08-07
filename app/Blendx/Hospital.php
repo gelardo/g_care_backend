@@ -6,6 +6,8 @@ namespace App\Blendx;
 
 class Hospital extends Blender
 {
+    protected $relations = ['doctors'];
+
     public static function store_validator($route)
     {
         $validator = parent::store_validator($route);

@@ -36,9 +36,7 @@ Route::post("/register/{role}", [AuthController::class, 'register']);
 //// Forget Password
 //Route::post("/forget-password", [AuthController::class, 'forget_password']);
 //// Reset Password
-//Route::post("/reset-password", [AuthController::class, 'reset_password'])->name('password.reset');
-//Temporary Routes
-Route::get('/doctor/{speciality_id}',[AuthController::class, 'doctor_with_speciality']);
+//Route::post("/reset-password", [AuthController::class, 'reset_password'])->name('password.reset');z
 
 // Blendme
 //Route::any("/{route}/{action?}/{id?}", [BlendxRouter::class, 'blendme']);

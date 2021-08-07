@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" serverName="Gcare" remoteFilesAllowedToDisappearOnAutoupload="false">
+    <serverData>
+      <paths name="Gcare">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/gcare" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+          <excludedPaths>
+            <excludedPath path="/gcare/node_modules" />
+            <excludedPath path="/gcare/vendor" />
+          </excludedPaths>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>

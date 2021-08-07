@@ -9,7 +9,8 @@ class Pathology extends Blender
     public static function update_validator()
     {
         return [
-            'name'=>'required|string'
+            'name'=>'required|string',
+            'price' => 'required'
         ];
     }
 }

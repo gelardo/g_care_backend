@@ -12,5 +12,5 @@ class Speciality extends Blender
         ];
     }
 
-    protected $relations = ['doctors.hospitals'];
+    protected $relations = ['doctors.hospitals','doctors.specialities'];
 }
